@@ -1,5 +1,5 @@
 {
-  "name": "ceasar-cli",
+  "name": "caesar-cli",
   "version": "1.0.0",
   "description": "CLI for RS School 1 task",
   "main": "caesar-cipher-cli/index.js",
