@@ -1,6 +1,6 @@
 {
   "name": "ceasar-cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "CLI for RS School 1 task",
   "main": "caesar-cipher-cli/index.js",
   "bin": {
@@ -22,5 +22,11 @@
   },
   "scripts": {
     "lint-fix": "eslint --fix ."
-  }
+  },
+  "keywords": [
+    "cli",
+    "caesar cipher",
+    "cipher",
+    "command line interface"
+  ]
 }
