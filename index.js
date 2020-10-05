@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 const fs = require("fs");
-const path = require("path");
 const sade = require("sade");
 const readline = require("readline");
+const {
+  createCaesarsCipherTransformer,
+} = require("./src/features/createCaesarsCipherWritable");
 
 const prog = sade("my_caesar_cli", true);
 
@@ -21,12 +23,12 @@ prog
 
     if (!action) {
       console.error("Action flag is missing!");
-      process.exitCode = 1;
+      process.exit(1);
     }
 
     if (!shift) {
       console.error("Shift flag is missing!");
-      process.exitCode = 1;
+      process.exit(1);
     }
 
     if (!input && !output) {
@@ -40,19 +42,19 @@ prog
         console.log(`> building from to ${JSON.stringify(dest)}`);
       });
     } else {
-      const readStream = input
-        ? fs.createReadStream(path.resolve(__dirname, input))
-        : process.stdin;
+      const readStream = input ? fs.createReadStream(input) : process.stdin;
       const writeStream = output
-        ? fs.createWriteStream(path.resolve(__dirname, output), { flags: "a" })
+        ? fs.createWriteStream(output, { flags: "a" })
         : process.stdout;
 
       readStream.on("error", () => {
         console.error("File to be read is unavailable or invalid!");
-        process.exitCode = 2;
+        process.exit(2);
       });
 
-      readStream.pipe(writeStream);
+      readStream
+        .pipe(createCaesarsCipherTransformer(action, shift))
+        .pipe(writeStream);
     }
   })
   .parse(process.argv);
