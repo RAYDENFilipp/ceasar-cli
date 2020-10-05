@@ -36,6 +36,18 @@ exports.cliActionHandler = (dest) => {
       rl.prompt();
     });
   } else {
+    fs.stat(output, (err, stats) => {
+      if (err) {
+        console.error(`Can't read a file, an error occurred: ${err.message}`);
+        process.exit(2);
+      }
+
+      if (stats.isDirectory()) {
+        console.error("Cant write to a directory, specify a file instead");
+        process.exit(2);
+      }
+    });
+
     const readStream = input ? fs.createReadStream(input) : process.stdin;
     const writeStream = output
       ? fs.createWriteStream(output, { flags: "a" })

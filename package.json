@@ -1,6 +1,6 @@
 {
   "name": "ceasar-cli",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "CLI for RS School 1 task",
   "main": "caesar-cipher-cli/index.js",
   "bin": {
