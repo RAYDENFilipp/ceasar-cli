@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 const fs = require("fs");
 const sade = require("sade");
 const readline = require("readline");
@@ -6,9 +5,9 @@ const {
   createCaesarsCipherTransformer,
 } = require("./src/features/createCaesarsCipherWritable");
 
-const prog = sade("my_caesar_cli", true);
+const cli = sade("my_caesar_cli", true);
 
-prog
+cli
   .version("1.0.0")
   .describe("Caesar cipher CLI tool")
   .option("-s, --shift", "A shift by how many characters to move an alphabet")
@@ -17,7 +16,9 @@ prog
   .option("-a, --action", "An action, encode/decode")
   .example('-a encode -s 7 -i "./input.txt" -o "./output.txt"')
   .example("--action encode --shift 7 --input plain.txt --output encoded.txt")
-  .example("--action decode --shift 7 --input decoded.txt --output plain.txt")
+  .example("--action decode --shift 7 --input encoded.txt --output plain.txt")
+  .example("--action encode --shift 7  --output plain.txt")
+  .example("--action decode --shift 7 --input decoded.txt")
   .action((dest) => {
     const { action, shift, input, output } = dest;
 
@@ -32,14 +33,21 @@ prog
     }
 
     if (!input && !output) {
+      const readStream = process.stdin.pipe(
+        createCaesarsCipherTransformer(action, shift)
+      );
+      const writeStream = process.stdout;
+
       const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-        prompt: ">",
+        input: readStream,
+        output: writeStream,
+        prompt: `${action}> `,
       });
 
+      rl.prompt();
+
       rl.on("line", () => {
-        console.log(`> building from to ${JSON.stringify(dest)}`);
+        rl.prompt();
       });
     } else {
       const readStream = input ? fs.createReadStream(input) : process.stdin;
@@ -58,3 +66,5 @@ prog
     }
   })
   .parse(process.argv);
+
+exports.cli = cli;

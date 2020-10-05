@@ -2,7 +2,10 @@
   "name": "ceasar-cli",
   "version": "1.0.0",
   "description": "CLI for RS School 1 task",
-  "main": "index.js",
+  "main": "caesar-cipher-cli/index.js",
+  "bin": {
+    "my_caesar_cli": "./caesar-cipher-cli/bin/caesar-cipher-cli.js"
+  },
   "repository": "https://github.com/RAYDENFilipp/ceasar-cli.git",
   "author": "Philipp_Lypniakov <filipprayden@gmail.com>",
   "license": "MIT",
