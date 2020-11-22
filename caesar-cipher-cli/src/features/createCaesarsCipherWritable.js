@@ -19,9 +19,9 @@ exports.createCaesarsCipherTransformer = (action, shift) =>
         const { fromCharCode } = String;
 
         if (isLatin) {
-          const isItemUppercased = item.toUpperCase() === item;
-          const charCodeA = isItemUppercased ? 65 : 97;
-          const charCodeZ = isItemUppercased ? 90 : 122;
+          const isItemUppercase = item.toUpperCase() === item;
+          const charCodeA = isItemUppercase ? 65 : 97;
+          const charCodeZ = isItemUppercase ? 90 : 122;
           let isShiftWithinTheRange;
           let processCaesarCiphering;
           let processCaesarCipheringOnOverflow;
